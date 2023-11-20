@@ -20,9 +20,9 @@ There were many possible approaches to the analysis because the final dataset ha
 
 ### 3.1 Final Dataset
 
-All the data used for the analysis is available in the [Data folder](Data/Final/). It is a set of XXXX .csv files. 
+All the data used for the analysis is available in the [Data folder](Data/Final/). It is a set of **XXXX .csv files.** 
 
-**TODO: ** Add some explanation about the final dataset (if not yet explained in other sections): list files, and their purpose, format, and sample of each file. 
+**TODO:** Add some explanation about the final dataset (if not yet explained in other sections): list files, and their purpose, format, and sample of each file. 
 
 ### 3.2 Source Data
 
