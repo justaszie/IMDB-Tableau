@@ -20,6 +20,8 @@ There were many possible approaches to the analysis because the final dataset ha
 
 ### 3.1 Final Dataset
 
+All the data for the analysis is available [in Data folder](Data/Final/)
+
 ### 3.2 Source Data
 
 ### 3.3 Cleanup and Transformation
