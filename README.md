@@ -30,9 +30,9 @@ To complete the analysis, I collected the data from 2 sources and merged them: r
 
 #### 3.2.1 Kaggle Dataset
 
-The main source of data was a [Kaggle dataset](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020) containing the basic attributes of all movies featured in the IMDB Top 250 chart from 1996 to 2021 and respective ranking of the movie each year. 
+The main source of data was a [Kaggle dataset](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020) containing the basic attributes of all movies featured in the IMDB Top 250 chart from 1996 to 2021 and respective ranking of the movie each year. You can download the csv file from [Data folder](Data/Raw/imdbTop250-Raw.csv). 
 
-There was a single table and each row of the table was a combination of movie details + movie ranking for a given year (movie x year). There were 26 years of ranking and the chart features 250 movies, so the dataset has 6500 (26 x 250) rows.
+There was a single table and each row of the table was a pair of movie details + movie ranking for a given year. There were 26 years of ranking and the chart features 250 movies, so the dataset has 6500 (26 x 250) rows.
 
 Each row had the following attributes: 
 
@@ -55,7 +55,7 @@ Each row had the following attributes:
 | Cast3 | Name of the cast member appearing third (if there is one) on the movie webpage on the IMDB site. | String | Phil Daniels |
 | Cast4 | Name of the cast member appearing fourth (if there is one) on the movie webpage on the IMDB site. | String | Lynn Ferguson |
 
-See sample of the data below
+See a sample of the file below
 | Ranking | IMDByear | IMDBlink | Title | Date | RunTime | Genre | Rating | Score | Votes | Gross | Director | Cast1 | Cast2 | Cast3 | Cast4 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 168 | 2000 | /title/tt0120630/ | Chicken Run | 2000 | 84 | Animation, Adventure, Comedy | 7 | 88 | 185939 | 106.83 | Peter Lord,  Nick Park | Mel Gibson | Julia Sawalha | Phil Daniels | Lynn Ferguson |
