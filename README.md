@@ -73,14 +73,15 @@ I decided to enrich the Kaggle dataset because it had a few issues:
 
 The Movie Database (TMDB) platform has a convenient API that is free for the registered users. I wrote a Python script to connect to this API and collect the data about the movies listed in my original dataset. **Please note** that the Python code is very hacky because I haven't properly looked into using Python yet. 
 
-**TODO:** Upload and add a link to the Jupyter notebook (redact the API key)
+The Python script and the results from the API extraction are available in the [Data folder](Data/Raw/TMDB)
 
+**TODO: FORMAT DESCRIPTION**
 
+**TODO: SAMPLE**
 
 ### 3.3 Cleanup and Transformation
-Todo
+**TODO: Describe star transformation, data checks**
 
 ## 4. Future Improvements and Lessons Learned 
-
-Todo
+**TODO**
 
