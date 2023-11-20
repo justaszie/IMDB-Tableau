@@ -20,9 +20,36 @@ There were many possible approaches to the analysis because the final dataset ha
 
 ### 3.1 Final Dataset
 
-All the data for the analysis is available [in Data folder](Data/Final/)
+All the data used for the analysis is available in the [Data folder](Data/Final/). It is a set of XXXX .csv files. 
+
+**TODO: ** Add some explanation about the final dataset (if not yet explained in other sections): list files, and their purpose, format, and sample of each file. 
 
 ### 3.2 Source Data
+
+To complete the analysis, I collected the data from 2 sources and merged them: ranking data from a Kaggle dataset and additional movie details from The Movie Database (TMDB) API.
+
+#### 3.2.1 Kaggle Dataset
+
+The main source of data was a [Kaggle dataset](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020) containing the basic attributes of all movies featured in the IMDB Top 250 chart from 1996 to 2021 and respective ranking of the movie each year. 
+
+There was a single table and each row of the table was a combination of movie details + movie ranking for a given year (movie x year). There were 26 years of ranking and the chart features 250 movies, so the dataset has 6500 (26 x 250) rows.
+
+Each row had the following attributes: 
+
+| **Column** | **Description (assumed)** | **Format** |
+|---|---|---|
+| Ranking |  | String |
+| IMDBYear |  |  |
+| IMDBLink |  |  |
+| Title |  |  |
+| Date |  |  |
+| RunTime |  |  |
+| Genre |  |  |
+| Rating |  |  |
+| Score |  |  |
+| Votes |  |  |
+
+#### 3.2.2 TMDB API
 
 ### 3.3 Cleanup and Transformation
 Todo
