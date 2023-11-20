@@ -28,7 +28,7 @@ All the data used for the analysis is available in the [Data folder](Data/Final/
 
 To complete the analysis, I collected the data from 2 sources and merged them: ranking data from a Kaggle dataset and additional movie details from The Movie Database (TMDB) API.
 
-#### 3.2.1 Kaggle Dataset
+#### 3.2.1 Main Dataset from Kaggle
 
 The main source of data was a [Kaggle dataset](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020) containing the basic attributes of all movies featured in the IMDB Top 250 chart from 1996 to 2021 and respective ranking of the movie each year. You can download the csv file from [Data folder](Data/Raw/imdbTop250-Raw.csv). 
 
@@ -64,7 +64,17 @@ See a sample of the file below
 | 211 | 1997 | /title/tt0055614/ | West Side Story | 1961 | 153 | Crime, Drama, Musical | 7.5 | 86 | 107792 | 43.66 | Jerome Robbins,  Robert Wise | Natalie Wood | George Chakiris | Richard Beymer | Russ Tamblyn |
 | 205 | 1998 | /title/tt0055614/ | West Side Story | 1961 | 153 | Crime, Drama, Musical | 7.5 | 86 | 107792 | 43.66 | Jerome Robbins,  Robert Wise | Natalie Wood | George Chakiris | Richard Beymer | Russ Tamblyn |
 
-#### 3.2.2 TMDB API
+#### 3.2.2 Enriching with TMDB API
+
+I decided to enrich the Kaggle dataset because it had a few issues:
+  1. Based on a few samples, the revenue data was not reliable at all.
+  2. There was no data on the budgets. I wanted to analyze the profitability.
+  3. TMDB data had some additional attributes such as language, country of production, etc., which Kaggle data didn't have.
+
+The Movie Database (TMDB) platform has a convenient API that is free for the registered users. I wrote a Python script to connect to this API and collect the data about the movies listed in my original dataset. **Please note** that the Python code is very hacky because I haven't properly looked into using Python yet. 
+
+**TODO:** Upload and add a link to the Jupyter notebook (redact the API key)
+
 
 
 ### 3.3 Cleanup and Transformation
