@@ -22,13 +22,17 @@ I went through the following steps to get the raw data ready for analysis in Tab
 2. Write a Python script to download additional details about those movies from The Movie Database (TMDB) API.
 3. Merge the datasets and perform some cleanup
 4. Transform the data into Fact and Dimensions using Star-like model.
-5. Downloaded the transformed data as multiple .csv files to be joined using Tableau data modeling features.
+5. Download the transformed data as multiple .csv files to be joined using Tableau data modeling features.
+
+In this section you can access the final dataset used in Tableau, the description of the raw source data and the details of the cleanup and transformation, including code ran.
 
 ### 3.1 Final Dataset
 
-All the data used for the analysis is available in the [Data folder](Data/Final/). It is a set of **XXXX .csv files.** 
+All the data used for the analysis is available in the [Data folder](Data/Final/). It is a set of 10 .csv files, described in the table below.
 
-**TODO:** Add some explanation about the final dataset (if not yet explained in other sections): list files, and their purpose, format, and sample of each file. 
+**TODO: Add a table describing each file.https://docs.google.com/spreadsheets/d/1EU3RVa2ae3BBPG42gu7-9r-SuEXPuKTskBUM4rrRE1Q/edit#gid=1726377736**
+
+**TODO: decide if we want to add file samples here ???**
 
 ### 3.2 Source Data
 
