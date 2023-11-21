@@ -1,6 +1,5 @@
 ![imdb_logo](https://github.com/justaszie/IMDB-Tableau/assets/1820805/ebada95a-2e11-4ae2-a5fd-df51691b6359)
 
-
 # Analyzing IMDB Top 250 Movies using Tableau
 ## 1. Project Summary 
 
@@ -17,6 +16,13 @@ There were many possible approaches to the analysis because the final dataset ha
   4. [Evolution Dashboard](https://public.tableau.com/views/IMDBTop250-Evolution/EvolutionoverTime?:language=en-US&:display_count=n&:origin=viz_share_link). It presents insights into how the movie industry has evolved from 1996 (the chart's first year) to 2021.
 
 ## 3. Data Preparation
+
+I went through the following steps to get the raw data ready for analysis in Tableau:
+1. Download a dataset of the IMDB Top 250 movies from 1996 to 2021 from Kaggle
+2. Write a Python script to download additional details about those movies from The Movie Database (TMDB) API.
+3. Merge the datasets and perform some cleanup
+4. Transform the data into Fact and Dimensions using Star-like model.
+5. Downloaded the transformed data as multiple .csv files to be joined using Tableau data modeling features.
 
 ### 3.1 Final Dataset
 
