@@ -28,7 +28,7 @@ All the data used for the analysis is available in the [Data folder](Data/Final/
 
 To complete the analysis, I collected the data from 2 sources and merged them: ranking data from a Kaggle dataset and additional movie details from The Movie Database (TMDB) API.
 
-**TODO: Review this summary: explain in few points: downloaded Kaggle dataset, decided to enrich with TMDB, then merged and did transformation.**
+**TODO: Review this summary: explain in a few points: downloaded Kaggle dataset, decided to enrich with TMDB, then merged and did transformation.**
 
 #### 3.2.1 Main Dataset from Kaggle
 
@@ -95,10 +95,22 @@ The TMDB API provided various attributes for each movie but for my analysis, I f
 
 After collecting the data from both sources, some transformation was needed so that the data can be easily analyzed using Tableau. The table below details the issues with original sources that limited the analysis. It also lists the describes the transformation steps used to solve them. The transformation was completed using SQL on BigQuery as I have not yet studied data processing using Python or other languages. 
 
-**TODO: Add table with issues and solutions, disclaimer about start schema, links to find SQL code**
+**Please note** that the data model used here may not fit the actual definition of Star schema but it's good enough for the purpose of this Taleau project. I plan to study the proper data modeling techniques later. 
 
-
-**TODO: Describe data checks (null / anything else?)**
+| Issue | Solution | Details |
+|---|---|---|
+| IMDB raw dataset had duplicated movie data because one row was a pair of (movie, ranking year) values. | The main dataset was split using Star schema: Movie (fact table) and MovieRanking (dimension table)  | See [transform_star.sql](SQL/transform_star.sql) |
+| IMDB raw dataset had multiple genre values, split by a comma. | The values were split into different rows and stored in a different dimension table MovieGenre | See [transform_star.sql](SQL/transform_star.sql) |
+| IMDB raw dataset had multiple director values, split by a comma. | The values were split into different rows and stored in a different dimension table MovieDirector | See [transform_star.sql](SQL/transform_star.sql) |
+| IMDB raw dataset had multiple cast member values, stored in separate columns. | The values were split into rows using Unpivot function and stored in a different dimension table MovieCast  | See [transform_star.sql](SQL/transform_star.sql) |
+| IMDB and TMDB raw datasets had to be merged. | The Movie fact table was updated using attributes from the TMDB raw dataset. | See [transform_star.sql](SQL/transform_star.sql) |
+| TMDB raw dataset had multiple production country values, stored in JSON string format | The production countries column was processed using JSON functions, split into rows, and stored in a separate dimension table MovieProductionCountry  | See [transform_star.sql](SQL/transform_star.sql) |
+| TMDB raw dataset had multiple production company values, stored in JSON string format | The production companies column was processed using JSON functions, split into rows, and stored in a separate dimension table MovieProductionCompany  | See [transform_star.sql](SQL/transform_star.sql) |
+| A few movies in the IMDB dataset had the same title but were released in different years | The titles were updated by concatenating the title and release year value to differentiate the 2 movies | See [transform_star.sql](SQL/transform_star.sql) |
+| IMDB ranking data needed transformation to make it easier to analyze year-to-year changes in the chart (e.g. plotting the number of new entries by ranking year) | Calculated new fields using SQL and extracted the Movie Rankings with history in a separate .csv  | See [ranking_history_calc.sql](SQL/ranking_history_calc.sql) |
+| TMDB raw dataset used codes to describe the movie language (ISO 639-1). It is not useful when presenting visualizations. | Downloaded dataset mapping codes to full names from Wikipedia (https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) | Language mapping .csv included in the final data (ADD URL)  |
+| There are 23 different genres which makes it difficult to analyze using this dimension. | Group movies with specific genres into categories using a custom logic (in the defined order) (in the defined order): <br/> 1. Any movie that is tagged as comedy (no matter other genres) → Comedy <br/> 2. Movie not in (1) and which is tagged as either action or adventure → Action/Adventure <br/> 3. Movie that is not in (1) or (2) and which is tagged as ‘Drama’ (e.g. Drama and Thriller and War) → Drama <br/> 4. Movie that doesn’t fall under (1), (2), or (3) (e.g. Sports and Biography) → Other  | See [transform_star.sql](SQL/transform_star.sql) |
+|  |  |  |
 
 ## 4. Future Improvements and Lessons Learned 
 **TODO**
