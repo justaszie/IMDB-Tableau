@@ -28,6 +28,8 @@ All the data used for the analysis is available in the [Data folder](Data/Final/
 
 To complete the analysis, I collected the data from 2 sources and merged them: ranking data from a Kaggle dataset and additional movie details from The Movie Database (TMDB) API.
 
+**TODO: Review this summary: explain in few points: downloaded Kaggle dataset, decided to enrich with TMDB, then merged and did transformation.**
+
 #### 3.2.1 Main Dataset from Kaggle
 
 The main source of data was a [Kaggle dataset](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020) containing the basic attributes of all movies featured in the IMDB Top 250 chart from 1996 to 2021 and respective ranking of the movie each year. You can download the csv file from [Data folder](Data/Raw/IMDB/). 
@@ -36,7 +38,7 @@ There was a single table and each row of the table was a pair of movie details +
 
 Each row had the following attributes: 
 
-| **Column** | **Description** | **Format** | Sample data |
+| **Column** | **Description** | **Format** | **Sample data** |
 |---|---|---|---|
 | Ranking | Position of the movie in the chart | Integer | 3 |
 | IMDBYear | The year of the Top 250 chart | Integer | 2001 |
@@ -61,8 +63,6 @@ See a sample of the file below
 | 168 | 2000 | /title/tt0120630/ | Chicken Run | 2000 | 84 | Animation, Adventure, Comedy | 7 | 88 | 185939 | 106.83 | Peter Lord,  Nick Park | Mel Gibson | Julia Sawalha | Phil Daniels | Lynn Ferguson |
 | 239 | 2001 | /title/tt0120630/ | Chicken Run | 2000 | 84 | Animation, Adventure, Comedy | 7 | 88 | 185939 | 106.83 | Peter Lord,  Nick Park | Mel Gibson | Julia Sawalha | Phil Daniels | Lynn Ferguson |
 | 203 | 1998 | /title/tt0120780/ | Out of Sight | 1998 | 123 | Comedy, Crime, Drama | 7 | 85 | 90519 | 37.56 | Steven Soderbergh | George Clooney | Jennifer Lopez | Ving Rhames | Steve Zahn |
-| 211 | 1997 | /title/tt0055614/ | West Side Story | 1961 | 153 | Crime, Drama, Musical | 7.5 | 86 | 107792 | 43.66 | Jerome Robbins,  Robert Wise | Natalie Wood | George Chakiris | Richard Beymer | Russ Tamblyn |
-| 205 | 1998 | /title/tt0055614/ | West Side Story | 1961 | 153 | Crime, Drama, Musical | 7.5 | 86 | 107792 | 43.66 | Jerome Robbins,  Robert Wise | Natalie Wood | George Chakiris | Richard Beymer | Russ Tamblyn |
 
 #### 3.2.2 Enriching with TMDB API
 
@@ -71,16 +71,34 @@ I decided to enrich the Kaggle dataset because it had a few issues:
   2. There was no data on the budgets. I wanted to analyze the profitability.
   3. TMDB data had some additional attributes such as language, country of production, etc., which Kaggle data didn't have.
 
-The Movie Database (TMDB) platform has a convenient API that is free for the registered users. I wrote a Python script to connect to this API and collect the data about the movies listed in my original dataset. **Please note** that the Python code is very hacky because I haven't properly looked into using Python yet. 
+The Movie Database (TMDB) platform has a convenient API that is free for the registered users. I wrote a Python script to connect to this API and collect the data about the movies listed in my original dataset.
 
-The Python script and the results from the API extraction are available in the [Data folder](Data/Raw/TMDB)
+The Python script and the results csv file are available in the [Data folder](Data/Raw/TMDB).  **Please note** that the Python code is very hacky because I haven't properly looked into  Python data structures yet. 
 
-**TODO: FORMAT DESCRIPTION**
+The TMDB API provided various attributes for each movie but for my analysis, I focused on the following:
 
-**TODO: SAMPLE**
+| Column | Description | Format | Sample data |
+|---|---|---|---|
+| adult | Defines if the film is only for adult viewers | Boolean | FALSE |
+| tagline | Tagline of the movie | String | The Original Bad Boys. |
+| vote_average | Score of the movie on TMDB website | Float | 5.2 |
+| vote_count | Number of votes for the movie on TMDB website | Integer | 168 |
+| popularity | Popularity score of the movie on TMDB website (on day of extraction) | Float | 7.949 |
+| revenue | Box Office revenue of the movie | Integer | 23920048 |
+| budget | Budget of the movie | Integer | 0 |
+| original_language | The original language of the movie  | String | en |
+| production_companies | Details of the companies that produced the movie | JSON String | [{'id': 2, 'logo_path': '/wdrCwmRnLFJhEoH8GSfymY85KHT.png', 'name': 'Walt Disney Pictures', 'origin_country': 'US'}, {'id': 134923, 'logo_path': None, 'name': 'Painted Fence Productions', 'origin_country': ''}] |
+| production_countries | List of countries where the movie was produced (based on where the production companies are registered) | JSON String | [{'iso_3166_1': 'US', 'name': 'United States of America'}] |
+| imdb_id | The ID of the movie in IMDB data - it allows to link the IMDB and TMDB datasets | String | tt0112302 |
 
 ### 3.3 Cleanup and Transformation
-**TODO: Describe star transformation, data checks**
+
+After collecting the data from both sources, some transformation was needed so that the data can be easily analyzed using Tableau. The table below details the issues with original sources that limited the analysis. It also lists the describes the transformation steps used to solve them. The transformation was completed using SQL on BigQuery as I have not yet studied data processing using Python or other languages. 
+
+**TODO: Add table with issues and solutions, disclaimer about start schema, links to find SQL code**
+
+
+**TODO: Describe data checks (null / anything else?)**
 
 ## 4. Future Improvements and Lessons Learned 
 **TODO**
