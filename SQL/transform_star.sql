@@ -98,7 +98,7 @@ AS (
   UNNEST(JSON_EXTRACT_ARRAY(REPLACE(production_countries, 'None', 'null'),'$')) as country_row
 );
 
--- 9  Updating the movies where the same title was used for different movies (released in different years)
+-- 9.  Updating the movies where the same title was used for different movies (released in different years)
 SELECT Title, COUNT(*) 
 FROM `phrasal-brand-398306.imdb_top_250.Movie`
 GROUP BY 1
@@ -107,3 +107,21 @@ ORDER BY 2 DESC;
 UPDATE `phrasal-brand-398306.imdb_top_250.Movie`
 SET Title = CONCAT(Title, ' (', release_year, ')')
 WHERE Title IN ('Beauty and the Beast', 'Drishyam');
+
+-- 10. Creating a MovieCategory dimension to group movies of specific genres.
+CREATE TABLE `phrasal-brand-398306.imdb_top_250.MovieCategory`
+AS (
+  SELECT mg.imdb_id,
+  CASE 
+    WHEN (genre_value_1 = 'Comedy' OR genre_value_2 = 'Comedy' OR genre_value_3 = 'Comedy') THEN 'Comedy'
+    WHEN (
+      genre_value_1 = 'Action' OR genre_value_2 = 'Action' OR genre_value_3 = 'Action'
+      OR genre_value_1 = 'Adventure' OR genre_value_2 = 'Adventure' OR genre_value_3 = 'Adventure') THEN 'Action/Adventure'
+    WHEN (genre_value_1 = 'Drama' OR genre_value_2 = 'Drama' OR genre_value_3 = 'Drama') THEN 'Drama'
+    ELSE 'Other'
+  END AS category
+  FROM `phrasal-brand-398306.imdb_top_250.MovieGenre`
+  PIVOT(MAX(genre) AS genre_value FOR genre_index IN (1, 2, 3)) mg
+  JOIN `phrasal-brand-398306.imdb_top_250.Movie` m ON m.imdb_id = mg.imdb_id
+);
+
