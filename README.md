@@ -17,8 +17,6 @@ There were many possible approaches to the analysis because the final dataset ha
 
 ## 3. Preparing the Data
 
-**TODO: Mention somewhere what the data is about on a high level (movies with rankings)**
-
 I went through the following steps to get the raw data ready for analysis in Tableau:
 1. Downloaded a dataset of the IMDB Top 250 movies from 1996 to 2021 [from Kaggle](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020)
 2. Wrote a Python script to download additional details about those movies from The Movie Database (TMDB) [API](https://developer.themoviedb.org/reference/intro/getting-started).
@@ -26,7 +24,7 @@ I went through the following steps to get the raw data ready for analysis in Tab
 4. Transformed the data into Fact and Dimensions using SQL, based on a Star-like model.
 5. Downloaded the transformed data as multiple .csv files to be joined using Tableau data modeling features.
 
-In this section, you can access the final dataset used in Tableau, the raw source data, and the details of the cleanup and transformation, including the code that was run.
+In this section, you can download the final dataset used in Tableau, the details of the raw data, and the detailed cleanup and transformation steps, including the code used.
 
 ### 3.1 Final Dataset
 
@@ -112,14 +110,12 @@ The "movie ranking with history" table is used as a separate data source in some
 | Previous Ranking | Ranking of the movie on previous year's chart. Contains 0 if the movie was not on the chart the previous year. | Integer | 150 |
 | Places Gained | How many places has the movie gained compared to previous year's chart. Can be negative if the movie has lost places (e.g. -5 if it dropped from position  10 to 5). Contains 0 if the movie was not on the chart the previous year. | Integer | 15 |
 
-### 3.2 Raw source Data
+### 3.2 Raw Data
 
 <details>
 <summary> Click here for the detais on the raw data </summary>
 
-To complete the analysis, I collected the data from 2 sources and merged them: ranking data from a Kaggle dataset and additional movie details from The Movie Database (TMDB) API.
-
-**TODO: Review this summary: we have described overall process in the beginning of Data Prep section. Maybe here just refer which part we're talking about and give details.** 
+AS mentioned in **TODO ADD LINK** [3. Preparing the Data](https://github.com/justaszie/IMDB-Tableau/blob/main/README.md#3-preparing-the-data) I used 2 data sources for this analysis: the main IMDB dataset from Kaggle and TMDB API for additional details. This section will describe the steps taken to source the data and the format of the raw data.
 
 #### 3.2.1 Main Dataset from Kaggle
 
@@ -180,10 +176,9 @@ The TMDB API provided various attributes for each movie but for my analysis, I f
 </details> 
 
 ### 3.3 Cleanup and Transformation
+The raw data collected from the sources was not suitable for analysis in Tableau. The table below details the issues with the raw data and describes the transformation steps used to solve them. 
 
-After collecting the data from both sources, some transformation was needed so that the data can be easily analyzed using Tableau. The table below details the issues with original sources that limited the analysis. It also lists the describes the transformation steps used to solve them. The transformation was completed using SQL on BigQuery as I have not yet studied data processing using Python or other languages. 
-
-**Please note** that the data model used here may not fit the actual definition of Star schema but it's good enough for the purpose of this Taleau project. I plan to study the proper data modeling techniques later. 
+The transformation was completed using SQL on BigQuery as I have not yet studied data processing using Python or other languages. **Please note** that the data model used here may not fit the actual definition of Star schema but it's good enough for the purpose of this Taleau project. I plan to study the proper data modeling techniques later. 
 
 | Issue | Solution | Details |
 |---|---|---|
