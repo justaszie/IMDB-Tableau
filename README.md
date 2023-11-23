@@ -21,18 +21,29 @@ I went through the following steps to get the raw data ready for analysis in Tab
 1. Download a dataset of the IMDB Top 250 movies from 1996 to 2021 from Kaggle
 2. Write a Python script to download additional details about those movies from The Movie Database (TMDB) API.
 3. Merge the datasets and perform some cleanup
-4. Transform the data into Fact and Dimensions using Star-like model.
+4. Transform the data into Fact and Dimensions using a Star-like model.
 5. Download the transformed data as multiple .csv files to be joined using Tableau data modeling features.
 
-In this section you can access the final dataset used in Tableau, the description of the raw source data and the details of the cleanup and transformation, including code ran.
+In this section you can access the final dataset used in Tableau, the description of the raw source data, and the details of the cleanup and transformation, including the code that was run.
 
 ### 3.1 Final Dataset
 
 All the data used for the analysis is available in the [Data folder](Data/Final/). It is a set of 10 .csv files, described in the table below.
 
-**TODO: Add a table describing each file.https://docs.google.com/spreadsheets/d/1EU3RVa2ae3BBPG42gu7-9r-SuEXPuKTskBUM4rrRE1Q/edit#gid=1726377736**
+| File | Description |
+|---|---|
+| IMDB_Movie.csv | Contains the main attributes of a movie |
+| IMDB_MovieCategory.csv | Contains the category (high-level genre) of a movie. There is one category value for each movie. |
+| IMDB_MovieProductionCompany.csv | Contains the details of the companies that produced a movie. There can be multiple company rows for each movie. |
+| IMDB_MovieProductionCountry.csv | Contains the countries where a movie was produced (based on the address of the production companies). There can be multiple country rows for each movie. |
+| IMDB_MovieCast.csv | Contains up to 4 main cast members who appeared in a movie. There can be up to 4 cast member rows for each movie.  |
+| IMDB_MovieDirector.csv | Contains the directors who worked on a movie. There can be multiple director rows for each movie.  |
+| IMDB_MovieGenre.csv | Contains the genres that the movie was tagged with by IMDB users. There can be multiple genre rows for each movie. |
+| IMDB_MovieRanking.csv | Contains the position in the Top 250 ranking for a movie and on a given year. There are 250 rows (1 for each position in the ranking) for each year (26 years from 1996 to 2021 included) |
+| Language_codes_wikipedia.csv | Contains the mapping of world languages: language name with associated 2-character code (ISO 639-1) |
+| IMDB_MovieRankingWithHistory.csv | Contains the same data as the MovieRanking file but has 3 additional attributes that allow to analyze the evolution of the ranking: new entry flag, previous year's ranking, and number of places gained. |
 
-**TODO: decide if we want to add file samples here ???**
+**TODO: Add more detailed description for each file with format (sample data in columns only)**
 
 ### 3.2 Source Data
 
@@ -42,7 +53,7 @@ To complete the analysis, I collected the data from 2 sources and merged them: r
 
 #### 3.2.1 Main Dataset from Kaggle
 
-The main source of data was a [Kaggle dataset](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020) containing the basic attributes of all movies featured in the IMDB Top 250 chart from 1996 to 2021 and respective ranking of the movie each year. You can download the csv file from [Data folder](Data/Raw/IMDB/). 
+The main source of data was a [Kaggle dataset](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020) containing the basic attributes of all movies featured in the IMDB Top 250 chart from 1996 to 2021 and respective ranking of the movie each year. You can download the .csv file from [Data folder](Data/Raw/IMDB/). 
 
 There was a single table and each row of the table was a pair of movie details + movie ranking for a given year. There were 26 years of ranking and the chart features 250 movies, so the dataset has 6500 (26 x 250) rows.
 
@@ -67,12 +78,7 @@ Each row had the following attributes:
 | Cast3 | Name of the cast member appearing third (if there is one) on the movie webpage on the IMDB site. | String | Phil Daniels |
 | Cast4 | Name of the cast member appearing fourth (if there is one) on the movie webpage on the IMDB site. | String | Lynn Ferguson |
 
-See a sample of the file below
-| Ranking | IMDByear | IMDBlink | Title | Date | RunTime | Genre | Rating | Score | Votes | Gross | Director | Cast1 | Cast2 | Cast3 | Cast4 |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 168 | 2000 | /title/tt0120630/ | Chicken Run | 2000 | 84 | Animation, Adventure, Comedy | 7 | 88 | 185939 | 106.83 | Peter Lord,  Nick Park | Mel Gibson | Julia Sawalha | Phil Daniels | Lynn Ferguson |
-| 239 | 2001 | /title/tt0120630/ | Chicken Run | 2000 | 84 | Animation, Adventure, Comedy | 7 | 88 | 185939 | 106.83 | Peter Lord,  Nick Park | Mel Gibson | Julia Sawalha | Phil Daniels | Lynn Ferguson |
-| 203 | 1998 | /title/tt0120780/ | Out of Sight | 1998 | 123 | Comedy, Crime, Drama | 7 | 85 | 90519 | 37.56 | Steven Soderbergh | George Clooney | Jennifer Lopez | Ving Rhames | Steve Zahn |
+You can see a sample of this file in the [Data folder](Data/Raw/IMDB/imdbTop250-Raw.csv)
 
 #### 3.2.2 Enriching with TMDB API
 
