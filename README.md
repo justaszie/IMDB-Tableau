@@ -196,5 +196,16 @@ The transformation was completed using SQL on BigQuery as I have not yet studied
 |  |  |  |
 
 ## 4. Future Improvements and Lessons Learned 
-**TODO**
+**TODO: Complete this piece, it's in WIP**
+1. Syntax and Semantics of Tableau formulas are not that easy due to multiple levels of aggregation, etc.  When we need to make more advanced calculations, such as the number of places gained by category, the number of new entries, etc. it's easier to do pre-processing using SQL window functions, for example.
+2. Choosing between mean and median is not always obvious. For example, some recent adventure movies are extreme outliers when it comes to box office revenue and it skews the data. So when we present insights on revenue by genre, should we use the median to describe the typical movie revenue to control for the outliers? Or is it better to use mean, which would highlight the fact that adventure movies are generating more revenue as a genre? Most literature will suggest using the median when the data is skewed. But using mean is better to showcase that making adventure movies CAN be more profitable and would influence producers to make more such movies. 
+3. I realized how domain knowledge is useful when a dimension has many distinct values. It's hard to visualize movies by genre with 20+ different genres present in the dataset. In these cases, domain knowledge allows you to group values into categories that make sense in the analysis. 
+4. I've explored multiple ways to plot multiple measures (other than to view correlation) and found that:
+    1. Dual-axis charts are good when the scale is not too different (e.g. visualizing revenue vs cost)
+    2. In other cases, treemaps are useful because we can use color for 1st measure and size for the other measure (e.g. visualizing the revenue and profitability of different production companies).
+5. Structuring analysis when we have the freedom to explore the dataset. When looking at a dimension (e.g. genre), it's interesting to not just look at obvious measures (e.g. rating) but also at counts of elements in other dimensions (e.g. count of different genres by director), averages of other dimensions (how the average rating of comedies evolved from one release year to another), etc.
+5. My data sources only contain Box Office revenue and do not have other sources such as sales of streaming rights, disc sales, etc. Because of this, we can't really compare the profitability of different movies. It would be interesting to find additional revenue data.
+6. Since practicing Tableau was a goal, I didn't go deeper into some analysis angles. For example, we could do a deeper analysis of revenues by finding ways to control for release years, removing outliers, etc.
+7. It would be interesting to enrich the data with attributes such as the series/franchise of the movie, whether it's a sequel/prequel, etc. I suspect there can be correlation between these attributes and the revenue generated.
+8. We need to be careful when using libraries in data processing. For example, using pandas to extract data to a csv, containing a JSON column, we will get **None** values instead of **Null**. When we try to parse it in SQL using JSON functions, it fails because "None" is read as a real value and it's missing quotes. 
 
