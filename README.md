@@ -18,7 +18,6 @@ There were many possible approaches to the analysis because the final dataset ha
 ## 3. Preparing the Data
 
 **TODO: Mention somewhere what the data is about on a high level (movies with rankings)**
-**TODO: Maybe add links to 2 sources here? Since we will refer to them in the final dataset description (original source) **
 
 I went through the following steps to get the raw data ready for analysis in Tableau:
 1. Downloaded a dataset of the IMDB Top 250 movies from 1996 to 2021 [from Kaggle](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020)
