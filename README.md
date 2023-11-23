@@ -15,29 +15,28 @@ There were many possible approaches to the analysis because the final dataset ha
   3. [Ratings Dashboard](https://public.tableau.com/views/IMDBTop250_16980672361840/Ratings?:language=en-US&:display_count=n&:origin=viz_share_link). It contains insights into what drives the IMDB user ratings.
   4. [Evolution Dashboard](https://public.tableau.com/views/IMDBTop250-Evolution/EvolutionoverTime?:language=en-US&:display_count=n&:origin=viz_share_link). It presents insights into how the movie industry has evolved from 1996 (the chart's first year) to 2021.
 
-## 3. Data Preparation
+## 3. Preparing the Data
 
 **TODO: Mention somewhere what the data is about on a high level (movies with rankings)**
 **TODO: Maybe add links to 2 sources here? Since we will refer to them in the final dataset description (original source) **
 
-
 I went through the following steps to get the raw data ready for analysis in Tableau:
-1. Download a dataset of the IMDB Top 250 movies from 1996 to 2021 from Kaggle
-2. Write a Python script to download additional details about those movies from The Movie Database (TMDB) API.
-3. Merge the datasets and perform some cleanup
-4. Transform the data into Fact and Dimensions using a Star-like model.
-5. Download the transformed data as multiple .csv files to be joined using Tableau data modeling features.
+1. Downloaded a dataset of the IMDB Top 250 movies from 1996 to 2021 [from Kaggle](https://www.kaggle.com/datasets/mustafacicek/imdb-top-250-lists-1996-2020)
+2. Wrote a Python script to download additional details about those movies from The Movie Database (TMDB) [API](https://developer.themoviedb.org/reference/intro/getting-started).
+3. Merged the datasets and perform some cleanup
+4. Transformed the data into Fact and Dimensions using SQL, based on a Star-like model.
+5. Downloaded the transformed data as multiple .csv files to be joined using Tableau data modeling features.
 
 In this section, you can access the final dataset used in Tableau, the raw source data, and the details of the cleanup and transformation, including the code that was run.
 
 ### 3.1 Final Dataset
 
 All the data used for the analysis is available in the [Data folder](Data/Final/). It is a set of 10 .csv files:
-1. Main data about movies that loosely follows the Star model:
-  1. One Movie fact table with the main details about a movie
-  2. 7 dimension tables with additional data about movies, including their position in the Top 250 ranking over the years.
+1. Main data about movies that loosely follows the Star model (technically, it doesn't comply with Star schema but it follows the overall fact-dimensions split):
+    1. One Movie fact table with the main attributes
+    1. 7 dimension tables with additional data about movies, including their position in the Top 250 ranking over the years.
 2. Helper table that maps the language codes to respective names
-3. Separate table that provides more details about the position of a movie in the rankings.
+3. Separate table that provides more details about the position of movies in the rankings.
 
 See below for more details about these files.
 
@@ -54,13 +53,11 @@ See below for more details about these files.
 | Language_codes_wikipedia.csv | Contains the mapping of world languages: language name with associated 2-character code (ISO 639-1) |
 | IMDB_MovieRankingWithHistory.csv | Contains the same data as the MovieRanking file but has 3 additional attributes that allow to analyze the evolution of the ranking: new entry flag, previous year's ranking, and number of places gained. |
 
-**TODO: Add more detailed description for each file with format (sample data in columns only)**
-
 #### 3.1.1 Movie fact table
 
 | **Column** | **Description** | **Format** | **Sample Data** | **Original Source** |
 |---|---|---|---|---|
-| imdb_id | Primary key. The part of the IMDB URL which points to the movie | String | /title/tt0115956/ <br/> (Full URL would be https://www.imdb.com/title/tt0060196/) | IMDB Top 250 Kaggle Dataset |
+| imdb_id | Primary key. The part of the IMDB URL which points to the movie | String | /title/tt0115956/ | IMDB Top 250 Kaggle Dataset |
 | title | Title of the movie | String | Courage Under Fire | IMDB Top 250 Kaggle Dataset |
 | release_year | Year when the movie was released | Integer | 1996 | IMDB Top 250 Kaggle Dataset |
 | RunTime | How long the movie is (in minutes) | Integer | 116 | IMDB Top 250 Kaggle Dataset |
@@ -78,35 +75,49 @@ See below for more details about these files.
 
 #### 3.1.2 Movie dimensions
 
-**Genre**
+| Dimension Table | Column | Description | Format | Sample Data | Original Source |
+|---|---|---|---|---|---|
+| All dimensions | imdb_id | Foreign key - points to the Movie fact table and defines which movie is described by the dimension. The part of the IMDB URL which points to the movie | String | /title/tt0115956/ <br/> (Full URL would be https://www.imdb.com/title/tt0060196/) | IMDB Top 250 Kaggle Dataset |
+| Genre | genre | Name of a genre that the movie was tagged with by IMDB users. There can be multiple genre rows for each movie. | String | Drama | IMDB Top 250 Kaggle Dataset |
+| Genre | genre_index | Order in which the genre value was assigned to a movie in the source data (see screenshot below this table for an example). It is useful in case there is some logic of which genre appears first in the source data. | Integer | 1 | IMDB Top 250 Kaggle Dataset |
+| Category | category | Value which defines the high level genre of a movie. It can be either Comedy, Drama, Action/Adventure or Other. It is calculated based on movie genres following a custom logic. | String | Comedy | Calculated |
+| Production Company | company_id | ID of the company that produced a movie, as it was defined in the original data source. | String | 2 | TMDB API |
+| Production Company | company_name | Name of the company that produced a movie, as it was defined in the original data source. | String | Walt Disney Pictures | TMDB API |
+| Production Country | country_code | 2-character code (iso_3166_1) of a country, where a movie was produced. These values are based on the registration address of the production companies involved in making the movie. | String | US | TMDB API |
+| Production Country | country_name | Name of a country, where a movie was produced | String | United States of America | TMDB API |
+| Cast Member | cast_member | Name of a cast member who appeared in a movie.  | String | Mel Gibson | IMDB Top 250 Kaggle Dataset |
+| Cast Member | cast_index | Order in which the cast member was listed on a movie in the source data (see screenshot below this table for an example). It is useful in case there is some logic of which genre appears first in the source data. | Integer | 1 | IMDB Top 250 Kaggle Dataset |
+| Director | director | Name of a director who worked on a movie.  | String | John Cleese | IMDB Top 250 Kaggle Dataset |
+| Director | director_index | Order in which the director was listed on a movie in the source data (see screenshot below this table for an example). It is useful in case there is some logic of which genre appears first in the source data. | Integer | 2 | IMDB Top 250 Kaggle Dataset |
+| Ranking | ranking_year | The year of the Top 250 chart | Integer | 2000 | IMDB Top 250 Kaggle Dataset |
+| Ranking | Ranking | The position of a movie in the chart on the given year. If a movie was not on a charts on a given year, there will be no rows in this table, with its imdb_id and year values. | Integer | 125 | IMDB Top 250 Kaggle Dataset |
 
-**Category**
+See below an example of the source where Genre, Director and Cast Member values come from:
 
-**Production Company**
-
-**Production Country**
-
-**Cast**
-For cast, director, genre, add screenshots where the data is coming from 
-**Director**
-
-
-
-**Ranking**
-
-
-Format table for each dimension
+<img width="1332" alt="image" src="https://github.com/justaszie/IMDB-Tableau/assets/1820805/f02773ff-030d-4793-95ab-c27704ea35f4">
 
 #### 3.1.2 Other
-1) language
-2) ranking 
+I created 2 additional tables to help the analysis. 
 
+Languages table simply provides the name of the language for each language code based on ISO 639-1 definition. It is useful because the movie language in the raw data was in language code format. This table is joined to the main data model in Tableau to help visualizations. 
+
+The "movie ranking with history" table is used as a separate data source in some Tableau visualizations that analyze the changes in the ranking over the years. I use it as a separate data source in Tableau because the idea to create it came towards the end of the project and I did not want to disrupt the main Data Model in tableau, which was using the original Ranking table. This table has the following attributes:
+
+| **Column** | **Description** | **Format** | **Sample Data** |
+|---|---|---|---|
+| IMDB ID | ID Of the movie | String | /title/tt0115956/ |
+| Title | Title of the movie | String | Courage Under Fire |
+| Ranking Year | The year of the Top 250 chart | Integer | 2001 |
+| Ranking | The position of a movie in the chart on the given year. If a movie was not on a charts on a given year, there will be no rows in this table, with its imdb_id and year values. | Integer | 125 |
+| New Entry | The flag that defines if the movie is a new entry (was not present on previous year's chart) | Boolean | FALSE |
+| Previous Ranking | Ranking of the movie on previous year's chart. Contains 0 if the movie was not on the chart the previous year. | Integer | 150 |
+| Places Gained | How many places has the movie gained compared to previous year's chart. Can be negative if the movie has lost places (e.g. -5 if it dropped from position  10 to 5). Contains 0 if the movie was not on the chart the previous year. | Integer | 15 |
 
 ### 3.2 Raw source Data
 
 To complete the analysis, I collected the data from 2 sources and merged them: ranking data from a Kaggle dataset and additional movie details from The Movie Database (TMDB) API.
 
-**TODO: Review this summary: explain in a few points: downloaded Kaggle dataset, decided to enrich with TMDB, then merged and did transformation.**
+**TODO: Review this summary: we have described overall process in the beginning of Data Prep section. Maybe here just refer which part we're talking about and give details.** 
 
 #### 3.2.1 Main Dataset from Kaggle
 
