@@ -114,6 +114,9 @@ The "movie ranking with history" table is used as a separate data source in some
 
 ### 3.2 Raw source Data
 
+<details>
+<summary> Click here for the detais on the raw data </summary>
+
 To complete the analysis, I collected the data from 2 sources and merged them: ranking data from a Kaggle dataset and additional movie details from The Movie Database (TMDB) API.
 
 **TODO: Review this summary: we have described overall process in the beginning of Data Prep section. Maybe here just refer which part we're talking about and give details.** 
@@ -173,6 +176,8 @@ The TMDB API provided various attributes for each movie but for my analysis, I f
 | production_companies | Details of the companies that produced the movie | JSON String | [{'id': 2, 'logo_path': '/wdrCwmRnLFJhEoH8GSfymY85KHT.png', 'name': 'Walt Disney Pictures', 'origin_country': 'US'}, {'id': 134923, 'logo_path': None, 'name': 'Painted Fence Productions', 'origin_country': ''}] |
 | production_countries | List of countries where the movie was produced (based on where the production companies are registered) | JSON String | [{'iso_3166_1': 'US', 'name': 'United States of America'}] |
 | imdb_id | The ID of the movie in IMDB data - it allows to link the IMDB and TMDB datasets | String | tt0112302 |
+
+</details> 
 
 ### 3.3 Cleanup and Transformation
 
